@@ -3,6 +3,10 @@ using R3;
 
 namespace PopupShowcase.PopupSystem
 {
+    /// <summary>
+    /// There is no real state machine implementation here, but the flow is constrained by four implicit states:
+    /// constructor - initialization state, TransitionToActive - active state, Close - close state, Dispose - dispose state.
+    /// </summary>
     public abstract class BasePopupData : IDisposable
     {
         public abstract PopupType Type { get; }
