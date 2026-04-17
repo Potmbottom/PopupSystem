@@ -16,6 +16,8 @@ namespace PopupShowcase.Meta.Presenters
 {
     public class GamePresenter : BasePresenter
     {
+        private const string RemoteLoadFailureMessage = "Failed to load remote content. Please try again.";
+
         [SerializeField] private CanvasGroupFadeAnimation _loadingOverlayAnimation;
         [SerializeField] private Button _debugSystemErrorButton;
         [SerializeField] private Button _debugDailyRewardButton;
@@ -110,7 +112,8 @@ namespace PopupShowcase.Meta.Presenters
 
         private async UniTaskVoid LoadTutorialPopupAsync()
         {
-            if (_loadingData == null)
+            var loadingData = _loadingData;
+            if (loadingData == null)
                 return;
 
             try
@@ -119,23 +122,24 @@ namespace PopupShowcase.Meta.Presenters
                     async ct =>
                     {
                         var tutorialData = CreateTutorialPopupData();
-                        await _popupRequestService.EnqueueAsync(tutorialData, ct);
+                        await TryEnqueuePopupAsync(tutorialData, ct);
                     },
                     _gameConfig.MockRemoteDelayMs,
-                    _loadingData.Progress,
+                    loadingData.Progress,
                     _cts.Token);
             }
             catch (OperationCanceledException) { return; }
             catch (Exception e)
             {
                 Debug.LogException(e);
-                _popupQueue.Dequeue(_loadingData);
-                _loadingData = null;
-                return;
+                ShowRemoteLoadFailure();
             }
-
-            _popupQueue.Dequeue(_loadingData);
-            _loadingData = null;
+            finally
+            {
+                _popupQueue.Dequeue(loadingData);
+                if (ReferenceEquals(_loadingData, loadingData))
+                    _loadingData = null;
+            }
         }
 
         private TutorialCompletePopupData CreateTutorialPopupData()
@@ -149,6 +153,11 @@ namespace PopupShowcase.Meta.Presenters
 
         private void HandleOfferClicked(string offerId)
         {
+            HandleOfferClickedAsync(offerId).Forget();
+        }
+
+        private async UniTaskVoid HandleOfferClickedAsync(string offerId)
+        {
             if (!_offersModel.TryGetOffer(offerId, out var offer))
                 return;
 
@@ -158,7 +167,7 @@ namespace PopupShowcase.Meta.Presenters
                 offer.IconPath);
 
             data.AddDisposable(data.BuyRequested.Subscribe(_ => HandleOfferBought(offerId)));
-            _popupRequestService.EnqueueAsync(data, _cts.Token).Forget();
+            await TryEnqueuePopupAsync(data, _cts.Token);
         }
 
         private void HandleOfferBought(string offerId)
@@ -168,14 +177,43 @@ namespace PopupShowcase.Meta.Presenters
 
         private void HandleDebugSystemError()
         {
-            _popupRequestService.EnqueueAsync(new SystemInterruptPopupData(
-                "An unexpected error occurred. Please try again."), _cts.Token).Forget();
+            TryEnqueuePopupAsync(
+                new SystemInterruptPopupData("An unexpected error occurred. Please try again."),
+                _cts.Token).Forget();
         }
 
         private void HandleDebugDailyReward()
         {
-            _popupRequestService.EnqueueAsync(new DailyRewardPopupData(
-                "Bonus coins for you!"), _cts.Token).Forget();
+            TryEnqueuePopupAsync(
+                new DailyRewardPopupData("Bonus coins for you!"),
+                _cts.Token).Forget();
+        }
+
+        private async UniTask<bool> TryEnqueuePopupAsync(BasePopupData data, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var isEnqueued = await _popupRequestService.EnqueueAsync(data, cancellationToken);
+                if (!isEnqueued)
+                    ShowRemoteLoadFailure();
+
+                return isEnqueued;
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                ShowRemoteLoadFailure();
+                return false;
+            }
+        }
+
+        private void ShowRemoteLoadFailure()
+        {
+            _popupQueue.Enqueue(new SystemInterruptPopupData(RemoteLoadFailureMessage));
         }
 
         private void ShowLoading()

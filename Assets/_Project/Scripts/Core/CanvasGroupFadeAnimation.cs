@@ -56,12 +56,5 @@ namespace PopupShowcase.Core
                 });
         }
 
-        public void SetVisible(bool isVisible)
-        {
-            if (isVisible)
-                ShowInstant();
-            else
-                HideInstant();
-        }
     }
 }

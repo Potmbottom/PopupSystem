@@ -13,17 +13,6 @@ namespace PopupShowcase.Assets
         private readonly Dictionary<object, string> _assetToAddress = new();
         private readonly Dictionary<string, HashSet<object>> _handlers = new();
 
-        public T LoadAsset<T>(string address) where T : Object
-        {
-            if (_cache.TryGetValue(address, out var cached))
-                return (T)cached;
-
-            var handle = Addressables.LoadAssetAsync<T>(address);
-            var result = handle.WaitForCompletion();
-            CacheAsset(address, result);
-            return result;
-        }
-
         public async UniTask<T> LoadAssetAsync<T>(string address, object handler = null) where T : Object
         {
             if (_cache.TryGetValue(address, out var cached))
@@ -50,12 +39,6 @@ namespace PopupShowcase.Assets
                 Debug.Log($"[AddressableAssetProvider] All handlers released for {address}, unloading asset");
                 ReleaseInternal(address, asset);
             }
-        }
-
-        public void Release<T>(T asset) where T : Object
-        {
-            if (!_assetToAddress.TryGetValue(asset, out var address)) return;
-            ReleaseInternal(address, asset);
         }
 
         private void CacheAsset(string address, object asset)

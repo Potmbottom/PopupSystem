@@ -36,11 +36,5 @@ namespace PopupShowcase.PopupSystem
                     .SetEase(_closeEase),
                 onComplete);
         }
-
-        public void SetVisible(bool visible)
-        {
-            KillTween();
-            _canvasGroup.alpha = visible ? 1f : 0f;
-        }
     }
 }
