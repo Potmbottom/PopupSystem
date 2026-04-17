@@ -1,0 +1,24 @@
+{
+    "name": "PopupShowcase.Meta",
+    "rootNamespace": "",
+    "references": [
+        "PopupShowcase.Assets",
+        "PopupShowcase.Configs",
+        "PopupShowcase.Core",
+        "PopupShowcase.PopupData",
+        "PopupShowcase.PopupSystem",
+        "R3.Unity",
+        "UniTask",
+        "Unity.TextMeshPro",
+        "Zenject"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

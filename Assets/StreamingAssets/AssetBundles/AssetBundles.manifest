@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2518499818
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: progression_unlock
+      Dependencies: {}

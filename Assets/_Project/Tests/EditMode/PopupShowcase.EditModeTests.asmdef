@@ -1,0 +1,31 @@
+{
+    "name": "PopupShowcase.EditModeTests",
+    "references": [
+        "PopupShowcase.PopupData",
+        "PopupShowcase.PopupSystem",
+        "R3.Unity",
+        "PopupShowcase.AssetContracts",
+        "PopupShowcase.Configs",
+        "UniTask"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "R3.dll",
+        "Microsoft.Bcl.TimeProvider.dll",
+        "Microsoft.Bcl.AsyncInterfaces.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

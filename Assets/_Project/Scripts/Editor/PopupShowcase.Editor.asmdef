@@ -1,0 +1,19 @@
+{
+    "name": "PopupShowcase.Editor",
+    "rootNamespace": "",
+    "references": [
+        "PopupShowcase.Configs",
+        "PopupShowcase.Meta"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

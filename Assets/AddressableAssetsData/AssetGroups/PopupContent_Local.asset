@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PopupContent_Local
+  m_EditorClassIdentifier: 
+  m_GroupName: PopupContent_Local
+  m_Data:
+    m_SerializedData: []
+  m_GUID: cf47e8a3c6a34ae40a327edbf0fcdb1e
+  m_SerializeEntries:
+  - m_GUID: 079ef44302a3753449566e99fd50b997
+    m_Address: sprites/default
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f64939085702c14ea246e6c92980eb7
+    m_Address: sprites/daily/reward
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3c01cb8d5af32c47a9571beaf6e7384
+    m_Address: sprites/offers/offer1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: fcf3a11e4b07ea149997099764dd1f12, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 81d6f59bdf2b60444bb6c9edcda2c33c, type: 2}
+    - {fileID: 11400000, guid: 5427f91922081f44ebb27f83df94999a, type: 2}

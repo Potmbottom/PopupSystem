@@ -1,0 +1,22 @@
+{
+    "name": "PopupShowcase.PopupSystem",
+    "rootNamespace": "",
+    "references": [
+        "PopupShowcase.AssetContracts",
+        "PopupShowcase.Configs",
+        "PopupShowcase.Core",
+        "PopupShowcase.PopupData",
+        "R3.Unity",
+        "UniTask",
+        "Zenject"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

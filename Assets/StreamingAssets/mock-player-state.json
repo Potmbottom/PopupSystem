@@ -1,0 +1,9 @@
+{
+    "playerId": "demo-player",
+    "tutorialCompleted": false,
+    "activeOfferIds": [
+        "offer1",
+        "offer2"
+    ],
+    "purchasedOfferIds": []
+}
