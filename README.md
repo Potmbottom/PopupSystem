@@ -77,3 +77,27 @@ Optional debug flow:
 2. The green debug button creates a default popup.
 
 Tools\Debug\Reset TO default player state
+
+## How To Add A New Popup
+
+If you want to add one more popup to the application, the flow in this project is always the same.
+
+1. Add a new value to `PopupType` in `PopupSystem/Assets/_Project/Scripts/PopupSystem/Data/PopupType.cs`. This is the identity the queue, config, and request service will use.
+
+2. Create a popup data class in `PopupSystem/Assets/_Project/Scripts/Meta/Popups/Data`. Inherit from `BasePopupData`, return the new `PopupType`, choose the correct `PopupPriority` in the constructor, and add only the state and commands that popup needs. Use existing classes like `LoginPopupData` or `OfferPopupData` as the reference.
+
+3. Create a popup control in `PopupSystem/Assets/_Project/Scripts/Meta/Popups/Controls`. Inherit from `BasePopupControl<TPopupData>`, bind buttons and fields inside `OnPopupModelUpdate`, and call `ClosePopup()` when the popup should close. Keep business logic in the model or presenter, not inside the control.
+
+4. Create the popup prefab in Unity and put the new control component on its root. Wire the serialized UI references on the control, and make sure the prefab contains the expected `PopupTransition` setup if it should animate like the existing popups.
+
+5. Register the prefab source in the `PopupPrefabConfig` asset. Add a new entry with the new `PopupType`, and configure exactly one source:
+   use `Prefab` for a local popup bundled with the application
+   use `RemotePrefab` for a popup that should be loaded through the remote content provider
+
+6. If the popup uses images or other data, connect those dependencies the same way the current popups do. Local sprites should go through addressables, remote sprites should go through the `bundle://...#...` path format that `SpriteLoader` understands.
+
+7. Trigger the popup from feature code. In most cases this means creating the new data object in a presenter or model-driven flow and sending it through `IPopupRequestService.EnqueueAsync(...)`. If you already have the prefab resolved and intentionally want direct queue access, you can enqueue through `PopupQueueProvider`, but the default path in this project is `IPopupRequestService`.
+
+8. If the popup needs follow-up behavior after activation, close, login, buy, or another user action, subscribe to the signals exposed by the popup data object before enqueueing it. Existing flow code in `GamePresenter` shows this pattern.
+
+The shortest practical version is: add a `PopupType`, add `BasePopupData`, add `BasePopupControl`, create a prefab, register it in `PopupPrefabConfig`, and enqueue it through `IPopupRequestService`.
