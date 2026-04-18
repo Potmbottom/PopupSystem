@@ -10,7 +10,6 @@ namespace PopupShowcase.Assets
     public class AddressableAssetProvider : IAssetProvider
     {
         private readonly Dictionary<string, object> _cache = new();
-        private readonly Dictionary<object, string> _assetToAddress = new();
         private readonly Dictionary<string, HashSet<object>> _handlers = new();
 
         public async UniTask<T> LoadAssetAsync<T>(string address, object handler = null) where T : Object
@@ -44,7 +43,6 @@ namespace PopupShowcase.Assets
         private void CacheAsset(string address, object asset)
         {
             _cache[address] = asset;
-            _assetToAddress[asset] = address;
         }
 
         private void RegisterHandler(string address, object handler)
@@ -64,7 +62,6 @@ namespace PopupShowcase.Assets
         {
             Addressables.Release(asset);
             _cache.Remove(address);
-            _assetToAddress.Remove(asset);
             _handlers.Remove(address);
         }
 
@@ -74,7 +71,6 @@ namespace PopupShowcase.Assets
                 Addressables.Release(asset);
 
             _cache.Clear();
-            _assetToAddress.Clear();
             _handlers.Clear();
         }
     }

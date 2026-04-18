@@ -9,6 +9,9 @@ using Object = UnityEngine.Object;
 
 namespace PopupShowcase.Assets
 {
+    // Intentional test-project implementation: bundles are downloaded on demand and cached only in memory
+    // for the current session. This workflow does not include persistent disk cache, version/hash validation,
+    // manifest or dependency resolution, or retry/backoff logic.
     public class AssetBundleContentProvider : IRemoteContentProvider
     {
         private sealed class BundleEntry
