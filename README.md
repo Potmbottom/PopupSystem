@@ -29,11 +29,11 @@ This design keeps queue rules independent from visuals. The queue has no knowled
 
 ## Meta Part
 
+The `Meta` assembly is a thin game layer that demonstrates how a real feature set drives the popup engine. `GamePresenter` runs the startup flow, loads player state, opens login and daily reward popups, reacts to menu actions, and triggers tutorial, offer, loading, and system-interrupt popups. `PlayerStateModel`, `OffersModel`, `MenuModel`, and popup data objects hold the game-facing reactive state and decisions, while `MenuControl`, `OffersShowControl`, `OfferCardControl`, and the popup-specific controls only render that state and forward user actions back into the models.
+
 The UI side follows a Model -> Control pattern, both for the meta screens and for popups. Models own state, expose reactive streams, and contain the business rules that decide what should happen. Controls are MonoBehaviours that bind to that state, forward user input into model commands, and update visuals. They should react to state, not invent gameplay rules locally.
 
 The codebase is also divided by `.asmdef` boundaries, so popup data, popup runtime, meta flow, assets, configs, core helpers, infrastructure, editor tooling, and tests stay as separate compile units instead of one large Unity assembly.
-
-The `Meta` assembly is a thin game layer that demonstrates how a real feature set drives the popup engine. `GamePresenter` runs the startup flow, loads player state, opens login and daily reward popups, reacts to menu actions, and triggers tutorial, offer, loading, and system-interrupt popups. `PlayerStateModel`, `OffersModel`, `MenuModel`, and popup data objects hold the game-facing reactive state and decisions, while `MenuControl`, `OffersShowControl`, `OfferCardControl`, and the popup-specific controls only render that state and forward user actions back into the models.
 
 The important boundary is that meta code only speaks in terms of models and popup requests. It does not manually instantiate popup prefabs or manage popup lifetime itself. Business logic stays in presenter and model layers. Controls stay passive and view-focused. That keeps the showcase logic replaceable without changing the popup engine.
 
