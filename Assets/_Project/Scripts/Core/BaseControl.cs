@@ -5,17 +5,11 @@ using UnityEngine;
 
 namespace PopupShowcase.Core
 {
-    public interface IUnbindable
-    {
-        void Unbind();
-    }
-
-    public abstract class BaseControl<T> : MonoBehaviour, IUnbindable where T : class
+    public abstract class BaseControl<T> : MonoBehaviour
     {
         protected T Model { get; private set; }
 
         private readonly CompositeDisposable _modelBindings = new();
-        private readonly CompositeDisposable _destroyDisposables = new();
         private bool _dirty;
         private bool _bound;
 
@@ -36,7 +30,6 @@ namespace PopupShowcase.Core
         protected virtual void OnDestroy()
         {
             _modelBindings.Dispose();
-            _destroyDisposables.Dispose();
         }
 
         public void Bind(T model)
@@ -82,21 +75,11 @@ namespace PopupShowcase.Core
 
         protected virtual void OnUnbind() { }
 
-        protected void AddDestroyDisposable(IDisposable disposable)
-        {
-            _destroyDisposables.Add(disposable);
-        }
-
         private void RefreshModel()
         {
             _modelBindings.Clear();
             if (_bound) OnModelUpdate(_modelBindings);
             _dirty = false;
-        }
-
-        void IUnbindable.Unbind()
-        {
-            Unbind();
         }
     }
 }
