@@ -69,11 +69,11 @@ so the swap is mechanical:
    to the CDN, build content.
 2. Replace serialized `bundle://path#asset` strings with plain addresses;
    `SpriteLoader.TryParseBundlePath` and its branching disappear.
-3. Delete `AssetBundleContentProvider`, `IRemoteContentProvider`,
-   `RemoteAssetReference`, and the DI binding. `SpriteLoader` calls
-   `Addressables.LoadAssetAsync<T>` and stores the returned handle per
-   handler; release becomes `Addressables.Release(handle)` — the handle is
-   the refcount.
+3. 3. Delete `AssetBundleContentProvider`, `IRemoteContentProvider`, and
+   `RemoteAssetReference`. `SpriteLoader` drops the bundle branch and routes
+   everything through the existing `IAssetProvider` (`AddressableAssetProvider`),
+   which already does address-keyed caching and per-handler refcounting.
+   No new code — just remove the parallel pipeline.
 
 ## Showcase
 
