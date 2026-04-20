@@ -69,7 +69,7 @@ so the swap is mechanical:
    to the CDN, build content.
 2. Replace serialized `bundle://path#asset` strings with plain addresses;
    `SpriteLoader.TryParseBundlePath` and its branching disappear.
-3. 3. Delete `AssetBundleContentProvider`, `IRemoteContentProvider`, and
+3. Delete `AssetBundleContentProvider`, `IRemoteContentProvider`, and
    `RemoteAssetReference`. `SpriteLoader` drops the bundle branch and routes
    everything through the existing `IAssetProvider` (`AddressableAssetProvider`),
    which already does address-keyed caching and per-handler refcounting.
