@@ -49,6 +49,32 @@ The project uses Zenject for dependency injection, UniTask for async flows, R3 f
 
 The application uses AssetBundles, Addressables, and atlases. Addressables are the local asset source, AssetBundles are the remote delivery path, and atlases are part of the UI asset packaging strategy.
 
+## Note on AssetBundles vs Addressables
+
+`AssetBundleContentProvider` uses raw `UnityWebRequestAssetBundle` with manual
+bundle caching and handler refcounting. This is intentional and demonstrative:
+`Addressables.LoadAssetAsync` is a wrapper around exactly this pipeline —
+profile-based URI resolution, bundle download + cache, asset load from the
+in-memory bundle, and a refcount that triggers `Bundle.Unload(false)` when the
+last handle is released. Doing it by hand makes those layers explicit. The
+features deliberately skipped (disk cache, hash validation, dependency
+resolution, retry) are all things Addressables provides for free.
+
+### Migrating to Addressables
+
+The pipeline is isolated behind `IRemoteContentProvider` and `SpriteLoader`,
+so the swap is mechanical:
+
+1. Mark assets Addressable, assign addresses, set the group's `RemoteLoadPath`
+   to the CDN, build content.
+2. Replace serialized `bundle://path#asset` strings with plain addresses;
+   `SpriteLoader.TryParseBundlePath` and its branching disappear.
+3. Delete `AssetBundleContentProvider`, `IRemoteContentProvider`, and
+   `RemoteAssetReference`. `SpriteLoader` drops the bundle branch and routes
+   everything through the existing `IAssetProvider` (`AddressableAssetProvider`),
+   which already does address-keyed caching and per-handler refcounting.
+   No new code — just remove the parallel pipeline.
+
 ## Showcase
 
 The showcase consists of 6 popups.
