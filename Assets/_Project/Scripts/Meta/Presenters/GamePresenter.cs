@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Linq;
 using PopupShowcase.Core;
 using PopupShowcase.Meta;
 using PopupShowcase.Meta.Controls;
@@ -25,7 +26,6 @@ namespace PopupShowcase.Meta.Presenters
 
         private PopupQueueProvider _popupQueue;
         private IPopupRequestService _popupRequestService;
-        private MockBundleLoader _bundleLoader;
         private PlayerStateModel _playerState;
         private IOffersModel _offersModel;
         private IMenuModel _menuModel;
@@ -40,7 +40,6 @@ namespace PopupShowcase.Meta.Presenters
         public void SetDependency(
             PopupQueueProvider popupQueue,
             IPopupRequestService popupRequestService,
-            MockBundleLoader bundleLoader,
             PlayerStateModel playerState,
             IOffersModel offersModel,
             IMenuModel menuModel,
@@ -48,7 +47,6 @@ namespace PopupShowcase.Meta.Presenters
         {
             _popupQueue = popupQueue;
             _popupRequestService = popupRequestService;
-            _bundleLoader = bundleLoader;
             _playerState = playerState;
             _offersModel = offersModel;
             _menuModel = menuModel;
@@ -118,15 +116,8 @@ namespace PopupShowcase.Meta.Presenters
 
             try
             {
-                await _bundleLoader.LoadAsync(
-                    async ct =>
-                    {
-                        var tutorialData = CreateTutorialPopupData();
-                        await TryEnqueuePopupAsync(tutorialData, ct);
-                    },
-                    _gameConfig.MockRemoteDelayMs,
-                    loadingData.Progress,
-                    _cts.Token);
+                var tutorialData = CreateTutorialPopupData();
+                await TryEnqueuePopupAsync(tutorialData, _cts.Token);
             }
             catch (OperationCanceledException) { return; }
             catch (Exception e)
@@ -136,6 +127,7 @@ namespace PopupShowcase.Meta.Presenters
             }
             finally
             {
+                await UniTask.Delay(3000);
                 _popupQueue.Dequeue(loadingData);
                 if (ReferenceEquals(_loadingData, loadingData))
                     _loadingData = null;
@@ -189,7 +181,9 @@ namespace PopupShowcase.Meta.Presenters
                 _cts.Token).Forget();
         }
 
-        private async UniTask<bool> TryEnqueuePopupAsync(BasePopupData data, CancellationToken cancellationToken)
+        private async UniTask<bool> TryEnqueuePopupAsync(
+            BasePopupData data,
+            CancellationToken cancellationToken)
         {
             try
             {

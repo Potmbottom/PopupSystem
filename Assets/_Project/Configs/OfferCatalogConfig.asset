@@ -24,4 +24,4 @@ MonoBehaviour:
     _popupTitle: Mega Pack
     _popupDescription: Confirm purchase ?
     _requiresTutorialComplete: 1
-    _iconPath: bundle://AssetBundles/progression_unlock#offer2
+    _iconPath: sprites/offers/offer2_remote

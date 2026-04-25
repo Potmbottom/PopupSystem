@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using PopupShowcase.Assets;
+using System.Linq;
 using PopupShowcase.PopupSystem;
 using UnityEngine;
 
@@ -10,37 +10,21 @@ namespace PopupShowcase.Meta
     public class PopupPrefabConfig : ScriptableObject
     {
         [Serializable]
-        public struct Entry
+        public class Entry
         {
             public PopupType Type;
             public GameObject Prefab;
-            public RemoteAssetReference RemotePrefab;
+            public string Address;
         }
 
         [SerializeField] private Entry[] _entries;
-        [NonSerialized] public readonly Dictionary<PopupType, Entry> EntriesByType = new();
 
-        public IReadOnlyList<Entry> Entries => _entries;
+        private Dictionary<PopupType, Entry> _cache;
 
-        private void OnEnable()
+        public Entry Get(PopupType type)
         {
-            RebuildEntryCache();
-        }
-
-        private void OnValidate()
-        {
-            RebuildEntryCache();
-        }
-
-        private void RebuildEntryCache()
-        {
-            EntriesByType.Clear();
-
-            if (_entries == null)
-                return;
-
-            foreach (var entry in _entries)
-                EntriesByType[entry.Type] = entry;
+            _cache ??= _entries.ToDictionary(x => x.Type, x => x);
+            return _cache.GetValueOrDefault(type);
         }
     }
 }

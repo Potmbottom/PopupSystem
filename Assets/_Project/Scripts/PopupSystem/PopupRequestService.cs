@@ -10,33 +10,42 @@ namespace PopupShowcase.PopupSystem
 {
     public interface IPopupRequestService
     {
-        UniTask<bool> EnqueueAsync(BasePopupData data, CancellationToken cancellationToken = default);
+        /// <remarks>
+        /// Returns false in two cases: the same popup type is already mid-load (this request is
+        /// dropped to dedupe), or the addressable load failed. Throws on cancellation.
+        /// </remarks>
+        UniTask<bool> EnqueueAsync(
+            BasePopupData data,
+            CancellationToken cancellationToken = default);
     }
 
-    public class PopupRequestService : IPopupRequestService
+    public class PopupRequestService : IPopupRequestService, IDisposable
     {
         private readonly PopupQueueProvider _queueProvider;
         private readonly PopupPrefabConfig _config;
-        private readonly IRemoteContentProvider _remoteContentProvider;
+        private readonly IAssetProvider _assetProvider;
         private readonly HashSet<PopupType> _loadingTypes = new();
+        private readonly Dictionary<PopupType, AssetHandle<GameObject>> _loadedHandles = new();
 
         public PopupRequestService(
             PopupQueueProvider queueProvider,
             PopupPrefabConfig config,
-            IRemoteContentProvider remoteContentProvider)
+            IAssetProvider assetProvider)
         {
             _queueProvider = queueProvider;
             _config = config;
-            _remoteContentProvider = remoteContentProvider;
+            _assetProvider = assetProvider;
         }
 
-        public async UniTask<bool> EnqueueAsync(BasePopupData data, CancellationToken cancellationToken = default)
+        public async UniTask<bool> EnqueueAsync(
+            BasePopupData data,
+            CancellationToken cancellationToken = default)
         {
-            var entry = GetEntry(data.Type);
+            var entry = _config.Get(data.Type);
             var hasLocalPrefab = entry.Prefab != null;
-            var hasRemotePrefab = entry.RemotePrefab.IsConfigured;
+            var hasAddress = !string.IsNullOrWhiteSpace(entry.Address);
 
-            if (hasLocalPrefab == hasRemotePrefab)
+            if (hasLocalPrefab == hasAddress)
                 throw new InvalidOperationException(
                     $"Popup type {data.Type} must have exactly one prefab source configured.");
 
@@ -46,10 +55,16 @@ namespace PopupShowcase.PopupSystem
                 return true;
             }
 
-            return await EnqueueRemoteAsync(data, entry, cancellationToken);
+            if (_loadedHandles.TryGetValue(data.Type, out var cached))
+            {
+                _queueProvider.Enqueue(data, cached.Asset);
+                return true;
+            }
+
+            return await EnqueueAddressableAsync(data, entry, cancellationToken);
         }
 
-        private async UniTask<bool> EnqueueRemoteAsync(
+        private async UniTask<bool> EnqueueAddressableAsync(
             BasePopupData data,
             PopupPrefabConfig.Entry entry,
             CancellationToken cancellationToken)
@@ -60,40 +75,24 @@ namespace PopupShowcase.PopupSystem
                 return false;
             }
 
-            var releaseHandle = new RemotePopupHandleRelease(
-                _remoteContentProvider,
-                entry.RemotePrefab);
-
             try
             {
-                var prefab = await _remoteContentProvider.LoadAssetAsync<GameObject>(
-                    entry.RemotePrefab,
-                    releaseHandle.Handler,
-                    cancellationToken);
+                var handle = await _assetProvider.LoadAssetAsync<GameObject>(
+                    entry.Address, cancellationToken);
 
-                if (prefab == null)
-                {
-                    releaseHandle.Dispose();
-                    data.Dispose();
-                    return false;
-                }
-
-                data.AddDisposable(releaseHandle);
-                _queueProvider.Enqueue(data, prefab);
+                _loadedHandles[data.Type] = handle;
+                _queueProvider.Enqueue(data, handle.Asset);
                 return true;
-            }
-            catch (OperationCanceledException)
-            {
-                releaseHandle.Dispose();
-                data.Dispose();
-                throw;
             }
             catch (Exception exception)
             {
-                Debug.LogWarning(
-                    $"[PopupRequestService] Failed to load remote popup for {data.Type}. {exception.Message}");
-                releaseHandle.Dispose();
                 data.Dispose();
+
+                if (exception is OperationCanceledException)
+                    throw;
+
+                Debug.LogWarning(
+                    $"[PopupRequestService] Failed to load popup for {data.Type}. {exception.Message}");
                 return false;
             }
             finally
@@ -102,38 +101,11 @@ namespace PopupShowcase.PopupSystem
             }
         }
 
-        private PopupPrefabConfig.Entry GetEntry(PopupType type)
+        public void Dispose()
         {
-            if (_config.EntriesByType.TryGetValue(type, out var entry))
-                return entry;
-
-            throw new InvalidOperationException($"No popup config entry found for popup type: {type}");
-        }
-
-        private sealed class RemotePopupHandleRelease : IDisposable
-        {
-            private readonly IRemoteContentProvider _remoteContentProvider;
-            private readonly RemoteAssetReference _reference;
-            private bool _isDisposed;
-
-            public RemotePopupHandleRelease(
-                IRemoteContentProvider remoteContentProvider,
-                RemoteAssetReference reference)
-            {
-                _remoteContentProvider = remoteContentProvider;
-                _reference = reference;
-            }
-
-            public object Handler { get; } = new();
-
-            public void Dispose()
-            {
-                if (_isDisposed)
-                    return;
-
-                _isDisposed = true;
-                _remoteContentProvider.ReleaseHandler(_reference, Handler);
-            }
+            foreach (var handle in _loadedHandles.Values)
+                handle.Dispose();
+            _loadedHandles.Clear();
         }
     }
 }

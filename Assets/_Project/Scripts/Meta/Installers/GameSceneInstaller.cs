@@ -1,10 +1,6 @@
-using PopupShowcase.Assets;
-using PopupShowcase.Meta;
 using PopupShowcase.Meta.Models;
-using PopupShowcase.Meta.Presenters;
 using PopupShowcase.PopupSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace PopupShowcase.Meta.Installers
@@ -18,7 +14,6 @@ namespace PopupShowcase.Meta.Installers
         public override void InstallBindings()
         {
             BindConfigs();
-            BindSceneAssetServices();
             BindPopupSystem();
             BindModels();
         }
@@ -30,20 +25,13 @@ namespace PopupShowcase.Meta.Installers
             Container.BindInstance(_offerCatalogConfig);
         }
 
-        private void BindSceneAssetServices()
-        {
-            Container.BindInterfacesTo<SpriteLoader>()
-                .AsSingle();
-        }
-
         private void BindPopupSystem()
         {
             Container.BindInterfacesTo<PopupFactory>()
                 .AsSingle();
             Container.BindInterfacesTo<PopupRequestService>()
                 .AsSingle();
-
-            Container.Bind<MockBundleLoader>()
+            Container.BindInterfacesAndSelfTo<BlockerModel>()
                 .AsSingle();
         }
 

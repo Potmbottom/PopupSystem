@@ -16,8 +16,6 @@ namespace PopupShowcase.Meta.Installers
         private void BindAssetServices()
         {
             Container.BindInterfacesTo<AddressableAssetProvider>().AsSingle();
-
-            Container.BindInterfacesTo<AssetBundleContentProvider>().AsSingle();
         }
 
         private void BindPopupQueue()

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PopupContent_Remote
+  m_EditorClassIdentifier: 
+  m_GroupName: PopupContent_Remote
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 772fa218f5ff1d54b98643ba557ed3d6
+  m_SerializeEntries:
+  - m_GUID: 4d33eda8bd73eb149888689704af4f11
+    m_Address: sprites/offers/offer2_remote
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e59831255f33e047a20a2d4e9d0967b
+    m_Address: popups/TutorialCompletePopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: fcf3a11e4b07ea149997099764dd1f12, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8966b53fb30f17544a4922b20a3e02fc, type: 2}
+    - {fileID: 11400000, guid: 7c2c49419bc4be5438c166da45585e8e, type: 2}

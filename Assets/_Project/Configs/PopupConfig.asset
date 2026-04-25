@@ -11,35 +11,23 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0618dd5961dd1c14f8309c28f5f871a3, type: 3}
   m_Name: PopupConfig
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   _entries:
   - Type: 0
     Prefab: {fileID: 1982520738218600087, guid: 4923c13550e83e646a12ca9f11be0ca7, type: 3}
-    RemotePrefab:
-      _bundlePath: 
-      _assetName: 
+    Address:
   - Type: 1
     Prefab: {fileID: 941678420287498968, guid: d0e1b4f525cb1114db3675e7804859de, type: 3}
-    RemotePrefab:
-      _bundlePath: 
-      _assetName: 
+    Address:
   - Type: 2
     Prefab: {fileID: 3228565913032688007, guid: 9ccf3b26de5086b418dd3f53582784a8, type: 3}
-    RemotePrefab:
-      _bundlePath: 
-      _assetName: 
+    Address:
   - Type: 3
     Prefab: {fileID: 953880026102375190, guid: 00b4909128d2c8545ac1eaeb93b5f49a, type: 3}
-    RemotePrefab:
-      _bundlePath: 
-      _assetName: 
+    Address:
   - Type: 4
     Prefab: {fileID: 0}
-    RemotePrefab:
-      _bundlePath: AssetBundles/progression_unlock
-      _assetName: TutorialPopup
+    Address: popups/TutorialCompletePopup
   - Type: 5
     Prefab: {fileID: 7721886942754573842, guid: 4d4802b8f12da2649873e0159200e13d, type: 3}
-    RemotePrefab:
-      _bundlePath: 
-      _assetName: 
+    Address:

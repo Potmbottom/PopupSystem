@@ -1,8 +1,13 @@
 {
-    "name": "PopupShowcase.Configs",
+    "name": "PopupShowcase.Core",
     "rootNamespace": "",
     "references": [
-        "PopupShowcase.PopupData"
+        "PopupShowcase.AssetContracts",
+        "PopupShowcase.Configs",
+        "R3.Unity",
+        "UniTask",
+        "Unity.TextMeshPro",
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

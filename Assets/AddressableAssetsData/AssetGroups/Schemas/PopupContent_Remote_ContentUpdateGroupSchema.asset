@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e1817c9f18b5e0469b5bda64f345e0c, type: 3}
-  m_Name: GameConfig
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: Packed Assets_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  _dailyRewardIconPath: sprites/daily/reward
-  _defaultSpritePath: sprites/default
-  _playerStateSource: mock-player-state.json
-  _startupLoadingDelayMs: 3000
+  m_Group: {fileID: 11400000, guid: bf18972d9e9944a4eae7a38a8fbac7f6, type: 2}
+  m_StaticContent: 0

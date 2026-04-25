@@ -7,9 +7,7 @@ namespace PopupShowcase.PopupSystem
 {
     public interface IPopupFactory
     {
-        BasePopupControl CreateLocal(PopupType type);
-        BasePopupControl CreateLoaded(GameObject prefab);
-        bool ShouldPool(PopupType type);
+        BasePopupControl Create(PopupQueueItem item);
     }
 
     public class PopupFactory : IPopupFactory
@@ -25,45 +23,14 @@ namespace PopupShowcase.PopupSystem
             _config = config;
         }
 
-        public BasePopupControl CreateLocal(PopupType type)
+        public BasePopupControl Create(PopupQueueItem item)
         {
-            var prefab = GetLocalPrefab(type);
-            return CreateLoaded(prefab);
-        }
-
-        public BasePopupControl CreateLoaded(GameObject prefab)
-        {
-            return _container.InstantiatePrefabForComponent<BasePopupControl>(prefab);
-        }
-
-        public bool ShouldPool(PopupType type)
-        {
-            var entry = GetEntry(type);
-            return entry.Prefab != null && !entry.RemotePrefab.IsConfigured;
-        }
-
-        private GameObject GetLocalPrefab(PopupType type)
-        {
-            var entry = GetEntry(type);
-            var hasLocalPrefab = entry.Prefab != null;
-            var hasRemotePrefab = entry.RemotePrefab.IsConfigured;
-
-            if (hasLocalPrefab && !hasRemotePrefab)
-                return entry.Prefab;
-
-            if (hasRemotePrefab)
+            var prefab = item.LoadedPrefab ?? _config.Get(item.Data.Type)?.Prefab;
+            if (prefab == null)
                 throw new InvalidOperationException(
-                    $"Popup type {type} requires a runtime-loaded prefab before Create is called.");
+                    $"No prefab available for popup type {item.Data.Type}.");
 
-            throw new InvalidOperationException($"Popup prefab is not configured for type: {type}");
-        }
-
-        private PopupPrefabConfig.Entry GetEntry(PopupType type)
-        {
-            if (_config.EntriesByType.TryGetValue(type, out var entry))
-                return entry;
-
-            throw new InvalidOperationException($"No popup config entry found for popup type: {type}");
+            return _container.InstantiatePrefabForComponent<BasePopupControl>(prefab);
         }
     }
 }
