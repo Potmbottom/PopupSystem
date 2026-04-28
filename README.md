@@ -1,3 +1,6 @@
+# Requirements
+root\Requirements.md
+
 # Popup Showcase
 
 Unity showcase of a popup system that takes requests from feature code, resolves the prefab source (local or Addressable), orders by priority, and keeps the screen consistent as popups open and close. Code lives in `Assets/_Project/Scripts`, split across `.asmdef` boundaries (popup runtime, meta flow, assets, configs, core helpers, tests).
