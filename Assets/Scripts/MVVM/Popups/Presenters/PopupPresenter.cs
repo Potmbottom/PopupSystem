@@ -11,7 +11,7 @@ namespace PopupShowcase.MVVM.Popups.Presenters
     {
         [SerializeField] private Transform _popupRoot;
 
-        private PopupQueueProvider _provider;
+        private PopupQueueService _provider;
         private IPopupFactory _factory;
         private BlockerModel _blockerModel;
 
@@ -22,7 +22,7 @@ namespace PopupShowcase.MVVM.Popups.Presenters
         private PopupType _currentType;
 
         [Inject]
-        public void SetDependency(PopupQueueProvider provider, IPopupFactory factory, BlockerModel blockerModel)
+        public void SetDependency(PopupQueueService provider, IPopupFactory factory, BlockerModel blockerModel)
         {
             _provider = provider;
             _factory = factory;
@@ -36,18 +36,18 @@ namespace PopupShowcase.MVVM.Popups.Presenters
                 .AddTo(_disposables);
         }
 
-        private void OnCurrentItemChanged(PopupQueueItem item)
+        private void OnCurrentItemChanged(QueueModel model)
         {
             if (_currentPopup != null)
                 ReleaseCurrentPopup();
 
-            if (item != null)
-                ShowPopup(item);
+            if (model != null)
+                ShowPopup(model);
 
             _blockerModel.SetVisible(_currentPopup != null);
         }
 
-        private void ShowPopup(PopupQueueItem item)
+        private void ShowPopup(QueueModel item)
         {
             var model = item.Model;
             BasePopupView view;

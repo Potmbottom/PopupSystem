@@ -1,9 +1,9 @@
 using UnityEngine;
 using Zenject;
 
-namespace PopupShowcase.MVVM.Popups.Bootstrap
+namespace PopupShowcase.MVVM.Popups.Presenters
 {
-    public class PopupBootstrap : MonoBehaviour
+    public class PopupBootstrapPresenter : MonoBehaviour
     {
         [SerializeField] private GameObject _popupCanvasPrefab;
 

@@ -25,7 +25,7 @@ namespace PopupShowcase.MVVM.Presenters
         [SerializeField] private Button _debugDailyRewardButton;
         [SerializeField] private MenuView _menuView;
 
-        private PopupQueueProvider _popupQueue;
+        private PopupQueueService _popupQueue;
         private IPopupRequestService _popupRequestService;
         private PlayerStateModel _playerState;
         private IOffersModel _offersModel;
@@ -39,7 +39,7 @@ namespace PopupShowcase.MVVM.Presenters
 
         [Inject]
         public void SetDependency(
-            PopupQueueProvider popupQueue,
+            PopupQueueService popupQueue,
             IPopupRequestService popupRequestService,
             PlayerStateModel playerState,
             IOffersModel offersModel,

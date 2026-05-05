@@ -11,7 +11,7 @@ namespace PopupShowcase.MVVM.Popups
         ReadOnlyReactiveProperty<T> CurrentItem { get; }
     }
 
-    public class PopupQueue<T> : ICurrentItemProvider<T>, IDisposable where T : class
+    public class Queue<T> : ICurrentItemProvider<T>, IDisposable where T : class
     {
         public ReadOnlyReactiveProperty<T> CurrentItem => _currentItem;
         
@@ -20,7 +20,7 @@ namespace PopupShowcase.MVVM.Popups
         private readonly Subject<T> _dequeued = new();
         private readonly string _name;
 
-        public PopupQueue(string name)
+        public Queue(string name)
         {
             _name = name;
         }

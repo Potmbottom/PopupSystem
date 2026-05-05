@@ -22,14 +22,14 @@ namespace PopupShowcase.MVVM.Popups.Service
 
     public class PopupRequestService : IPopupRequestService, IDisposable
     {
-        private readonly PopupQueueProvider _queueProvider;
+        private readonly PopupQueueService _queueProvider;
         private readonly PopupPrefabConfig _config;
         private readonly IAssetProvider _assetProvider;
         private readonly HashSet<PopupType> _loadingTypes = new();
         private readonly Dictionary<PopupType, AssetHandle<GameObject>> _loadedHandles = new();
 
         public PopupRequestService(
-            PopupQueueProvider queueProvider,
+            PopupQueueService queueProvider,
             PopupPrefabConfig config,
             IAssetProvider assetProvider)
         {
