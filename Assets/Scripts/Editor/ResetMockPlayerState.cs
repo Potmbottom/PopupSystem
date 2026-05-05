@@ -10,8 +10,8 @@ namespace PopupShowcase.Editor
 {
     public static class ResetMockPlayerState
     {
-        private const string GameConfigPath = "Assets/Configs/GameConfig.asset";
-        private const string OfferCatalogConfigPath = "Assets/Configs/OfferCatalogConfig.asset";
+        private const string GameConfigPath = "Assets/Resources/Configs/GameConfig.asset";
+        private const string OfferCatalogConfigPath = "Assets/Resources/Configs/OfferCatalogConfig.asset";
         private const string DefaultPlayerId = "demo-player";
 
         [MenuItem("Tools/Debug/Reset Mock Player State")]
