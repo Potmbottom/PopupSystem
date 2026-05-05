@@ -9,11 +9,11 @@ Unity showcase of a popup system that takes requests from feature code, resolves
 
 Pattern: Model - View - ViewModel
 
-Model - pure data storage, know only about other Models.
+`Model` → pure data storage, know only about other Models.
 
-ViewModel - rich entity model that contain reactive fields, know only about Models or other ViewModels.
+`ViewModel` → rich entity model that contain reactive fields, know only about Models or other ViewModels.
 
-View - can only react on ViewModel state change, know only about ViewModel.
+`View` → can only react on ViewModel state change, know only about ViewModel.
 
 ## Tech Stack
 
