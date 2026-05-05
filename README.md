@@ -19,7 +19,7 @@ The queue knows nothing about Unity. The views know nothing about queue ordering
 
 ## Tech Stack
 
-Zenject (DI), UniTask (async), R3 (reactive), DOTween (motion), Addressables (asset loading), Codex.
+Zenject, UniTask, R3, DOTween, Addressables, Codex.
 
 ## How to add a popup
 
