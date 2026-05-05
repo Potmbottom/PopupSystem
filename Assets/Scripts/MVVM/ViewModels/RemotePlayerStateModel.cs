@@ -15,8 +15,7 @@ namespace PopupShowcase.MVVM.ViewModels
             var resolvedUri = ResolveUri(sourcePath);
 
             using var request = UnityWebRequest.Get(resolvedUri);
-            request.SendWebRequest();
-            await UniTask.WaitUntil(() => request.isDone, cancellationToken: cancellationToken);
+            await request.SendWebRequest().ToUniTask(cancellationToken: cancellationToken);
 
             if (request.result != UnityWebRequest.Result.Success)
                 throw new InvalidOperationException(

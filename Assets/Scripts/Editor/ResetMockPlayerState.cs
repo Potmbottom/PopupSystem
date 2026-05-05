@@ -12,7 +12,6 @@ namespace PopupShowcase.Editor
     {
         private const string GameConfigPath = "Assets/Resources/Configs/GameConfig.asset";
         private const string OfferCatalogConfigPath = "Assets/Resources/Configs/OfferCatalogConfig.asset";
-        private const string DefaultPlayerId = "demo-player";
 
         [MenuItem("Tools/Debug/Reset Mock Player State")]
         public static void Reset()
@@ -51,7 +50,6 @@ namespace PopupShowcase.Editor
 
             var payload = new PlayerModel
             {
-                playerId = DefaultPlayerId,
                 tutorialCompleted = false,
                 activeOfferIds = offerCatalog.Offers
                     .Select(offer => offer?.OfferId)

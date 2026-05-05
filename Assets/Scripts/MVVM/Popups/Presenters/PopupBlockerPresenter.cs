@@ -6,18 +6,16 @@ using Zenject;
 
 namespace PopupShowcase.MVVM.Popups.Presenters
 {
-    public class PopupBlockerPresenter : BaseTweenAnimation
+    public class PopupBlockerPresenter : BasePresenter
     {
         [SerializeField] private CanvasGroup _canvasGroup;
-
-        private readonly CompositeDisposable _disposables = new();
 
         [Inject]
         public void SetDependency(IBlockerModel blockerModel)
         {
             blockerModel.IsVisible
                 .Subscribe(OnVisibilityChanged)
-                .AddTo(_disposables);
+                .AddTo(Disposables);
         }
 
         private void OnVisibilityChanged(bool isVisible)
@@ -38,11 +36,6 @@ namespace PopupShowcase.MVVM.Popups.Presenters
         {
             _canvasGroup.blocksRaycasts = false;
             gameObject.SetActive(false);
-        }
-
-        private void OnDestroy()
-        {
-            _disposables.Dispose();
         }
     }
 }

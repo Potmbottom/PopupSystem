@@ -9,11 +9,6 @@ namespace PopupShowcase.MVVM.Common
         protected CompositeDisposable Disposables { get; } = new();
         private bool _disposed;
 
-        protected void AddDisposable(IDisposable disposable)
-        {
-            Disposables.Add(disposable);
-        }
-
         public virtual void Dispose()
         {
             if (_disposed)

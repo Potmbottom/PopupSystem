@@ -18,8 +18,7 @@ namespace PopupShowcase.MVVM.ViewModels
         private readonly HashSet<string> _purchasedOfferIds = new();
         private readonly ReactiveProperty<bool> _tutorialCompleted = new(false);
         private readonly Subject<Unit> _offersChanged = new();
-
-        public string PlayerId { get; private set; } = "local-player";
+        
         public ReadOnlyReactiveProperty<bool> TutorialCompleted => _tutorialCompleted;
         public Observable<Unit> OffersChanged => _offersChanged;
 
@@ -89,8 +88,7 @@ namespace PopupShowcase.MVVM.ViewModels
         {
             _activeOfferIds.Clear();
             _purchasedOfferIds.Clear();
-
-            PlayerId = string.IsNullOrWhiteSpace(payload.playerId) ? "local-player" : payload.playerId;
+            
             _tutorialCompleted.Value = payload.tutorialCompleted;
 
             AddRange(_activeOfferIds, payload.activeOfferIds);
@@ -109,7 +107,6 @@ namespace PopupShowcase.MVVM.ViewModels
 
             return new PlayerModel
             {
-                playerId = "local-player",
                 tutorialCompleted = false,
                 activeOfferIds = activeOffers,
                 purchasedOfferIds = Array.Empty<string>()
