@@ -19,7 +19,7 @@ The queue knows nothing about Unity. The views know nothing about queue ordering
 
 ## Tech Stack
 
-Zenject (DI), UniTask (async), R3 (reactive), DOTween (motion), Addressables (asset loading).
+Zenject, UniTask, R3, DOTween, Addressables, Codex.
 
 ## How to add a popup
 
@@ -45,4 +45,7 @@ Expected flow: startup loading → `Login` → `DailyReward` → optional offer 
 
 ## Tests
 
-`Assets/Tests/EditMode/PopupQueueProviderTests.cs` covers priority restoration and duplicate-enqueue rejection.
+`Assets/Scripts/Tests/EditMode/PopupQueueProviderTests.cs` covers priority restoration and duplicate-enqueue rejection.
+
+# Assets
+https://assetstore.unity.com/packages/2d/gui/hyper-casual-mobile-gui-268659
