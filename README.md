@@ -1,9 +1,6 @@
 # Requirements
 root\Requirements.md
 
-# Assets
-https://assetstore.unity.com/packages/2d/gui/hyper-casual-mobile-gui-268659
-
 # Popup Showcase
 
 Unity showcase of a popup system that takes requests from feature code, resolves the prefab source (local or Addressable), orders by priority, and keeps the screen consistent as popups open and close. Code lives in `Assets/Scripts`, split across `.asmdef` boundaries (popup runtime, MVVM flow, assets, scriptables, common helpers, tests).
@@ -48,4 +45,7 @@ Expected flow: startup loading → `Login` → `DailyReward` → optional offer 
 
 ## Tests
 
-`Assets/Tests/EditMode/PopupQueueProviderTests.cs` covers priority restoration and duplicate-enqueue rejection.
+`Assets/Scripts/Tests/EditMode/PopupQueueProviderTests.cs` covers priority restoration and duplicate-enqueue rejection.
+
+# Assets
+https://assetstore.unity.com/packages/2d/gui/hyper-casual-mobile-gui-268659
