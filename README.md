@@ -7,15 +7,13 @@ Unity showcase of a popup system that takes requests from feature code, resolves
 
 ## Architecture
 
-Three layers, separated by intent:
+Pattern: Model - View - ViewModel
 
-- **Models** — `BasePopupModel` and subclasses carry popup state and signals (activated, closed, plus per-popup commands like `LoginRequested`, `BuyRequested`). No Unity references.
-- **Queue** — `PopupQueueProvider` owns one `PopupQueue` per `PopupPriority`. `PopupQueueAggregate` exposes the highest-priority non-empty queue's head as the current item, so a system interrupt can preempt a standard popup and the previous popup resurfaces when the interrupt closes.
-- **Presentation** — `PopupPresenter` subscribes to the current item, instantiates via `PopupFactory`, pools instances by type, and drives `PopupBlockerPresenter` for modality. `PopupTransitionPresenter` handles open/close animation.
+Model - pure data storage, know only about other Models.
 
-`PopupRequestService` is the entry point feature code uses. It looks up `PopupPrefabConfig`, picks the local prefab or loads the Addressable, caches the loaded handle for reuse, and dedupes concurrent loads of the same type. Local-only popups can also enqueue directly through `PopupQueueProvider` (used by `GamePresenter` for synchronous flows).
+ViewModel - rich entity model that contain reactive fields, know only about Models or other ViewModels.
 
-The queue knows nothing about Unity. The views know nothing about queue ordering. Asset loading lives behind `IAssetProvider`.
+View - can only react on ViewModel state change, know only about ViewModel.
 
 ## Tech Stack
 
