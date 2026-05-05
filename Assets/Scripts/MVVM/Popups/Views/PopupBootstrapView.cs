@@ -3,7 +3,7 @@ using Zenject;
 
 namespace PopupShowcase.MVVM.Popups.Presenters
 {
-    public class PopupBootstrapPresenter : MonoBehaviour
+    public class PopupBootstrapView : MonoBehaviour
     {
         [SerializeField] private GameObject _popupCanvasPrefab;
 

@@ -1,6 +1,6 @@
 using PopupShowcase.Assets;
+using PopupShowcase.MVVM.Popups.Models;
 using PopupShowcase.MVVM.ViewModels;
-using PopupShowcase.MVVM.Popups.Service;
 using Zenject;
 
 namespace PopupShowcase.MVVM.Installers
@@ -20,7 +20,7 @@ namespace PopupShowcase.MVVM.Installers
 
         private void BindPopupQueue()
         {
-            Container.Bind<PopupQueueService>()
+            Container.Bind<PopupQueueModel>()
                 .AsSingle();
 
             Container.Bind<RemotePlayerStateModel>()

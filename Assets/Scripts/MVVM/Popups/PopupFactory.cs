@@ -8,7 +8,7 @@ namespace PopupShowcase.MVVM.Popups.Service
 {
     public interface IPopupFactory
     {
-        BasePopupView Create(QueueModel model);
+        BasePopupView Create(QueueItemModel model);
     }
 
     public class PopupFactory : IPopupFactory
@@ -24,7 +24,7 @@ namespace PopupShowcase.MVVM.Popups.Service
             _config = config;
         }
 
-        public BasePopupView Create(QueueModel model)
+        public BasePopupView Create(QueueItemModel model)
         {
             var prefab = model.LoadedPrefab ?? _config.Get(model.Model.Type)?.Prefab;
             if (prefab == null)

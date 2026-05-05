@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PopupShowcase.MVVM.Popups
 {
-    public class QueueAggregator<T> : ICurrentItemProvider<T>, IDisposable where T : class
+    public class QueueAggregatorModel<T> : ICurrentItemProvider<T>, IDisposable where T : class
     {
         public ReadOnlyReactiveProperty<T> CurrentItem => _currentItem;
 
@@ -14,7 +14,7 @@ namespace PopupShowcase.MVVM.Popups
         private readonly CompositeDisposable _subscriptions = new();
         private int _activePriority;
 
-        public QueueAggregator(IList<ICurrentItemProvider<T>> providers)
+        public QueueAggregatorModel(IList<ICurrentItemProvider<T>> providers)
         {
             _providers = providers ?? throw new ArgumentNullException(nameof(providers));
 

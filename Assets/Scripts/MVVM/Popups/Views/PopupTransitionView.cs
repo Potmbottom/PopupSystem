@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PopupShowcase.MVVM.Popups.Presenters
 {
-    public class PopupTransitionPresenter : BaseTweenAnimation
+    public class PopupTransitionView : BaseTweenAnimation
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private float _fadeDuration = 0.25f;

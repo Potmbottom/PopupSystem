@@ -10,7 +10,7 @@ namespace PopupShowcase.MVVM.Popups
 
     public abstract class BasePopupView<T> : BasePopupView where T : BasePopupModel
     {
-        [SerializeField] private PopupTransitionPresenter _transition;
+        [SerializeField] private PopupTransitionView _transition;
 
         protected T PopupModel { get; private set; }
 

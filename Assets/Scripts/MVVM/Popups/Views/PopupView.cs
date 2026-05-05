@@ -7,11 +7,11 @@ using Zenject;
 
 namespace PopupShowcase.MVVM.Popups.Presenters
 {
-    public class PopupPresenter : MonoBehaviour
+    public class PopupView : MonoBehaviour
     {
         [SerializeField] private Transform _popupRoot;
 
-        private PopupQueueService _provider;
+        private PopupQueueModel _provider;
         private IPopupFactory _factory;
         private BlockerModel _blockerModel;
 
@@ -22,7 +22,7 @@ namespace PopupShowcase.MVVM.Popups.Presenters
         private PopupType _currentType;
 
         [Inject]
-        public void SetDependency(PopupQueueService provider, IPopupFactory factory, BlockerModel blockerModel)
+        public void SetDependency(PopupQueueModel provider, IPopupFactory factory, BlockerModel blockerModel)
         {
             _provider = provider;
             _factory = factory;
@@ -36,7 +36,7 @@ namespace PopupShowcase.MVVM.Popups.Presenters
                 .AddTo(_disposables);
         }
 
-        private void OnCurrentItemChanged(QueueModel model)
+        private void OnCurrentItemChanged(QueueItemModel model)
         {
             if (_currentPopup != null)
                 ReleaseCurrentPopup();
@@ -47,7 +47,7 @@ namespace PopupShowcase.MVVM.Popups.Presenters
             _blockerModel.SetVisible(_currentPopup != null);
         }
 
-        private void ShowPopup(QueueModel item)
+        private void ShowPopup(QueueItemModel item)
         {
             var model = item.Model;
             BasePopupView view;

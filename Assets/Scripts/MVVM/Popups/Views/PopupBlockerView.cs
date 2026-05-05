@@ -6,7 +6,7 @@ using Zenject;
 
 namespace PopupShowcase.MVVM.Popups.Presenters
 {
-    public class PopupBlockerPresenter : BasePresenter
+    public class PopupBlockerView : BasePresenter
     {
         [SerializeField] private CanvasGroup _canvasGroup;
 

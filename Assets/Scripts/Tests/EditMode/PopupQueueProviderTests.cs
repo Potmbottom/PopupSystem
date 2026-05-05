@@ -9,7 +9,7 @@ namespace PopupShowcase.Tests.EditMode
         [Test]
         public void ClosingHigherPriorityPopupRestoresPreviousPopup()
         {
-            using var provider = new PopupQueueService();
+            using var provider = new PopupQueueModel();
             var standardPopup = new TestPopupModel(PopupType.Login, PopupPriority.Standard);
             var systemPopup = new TestPopupModel(PopupType.SystemInterrupt, PopupPriority.SystemInterrupt);
 
@@ -28,7 +28,7 @@ namespace PopupShowcase.Tests.EditMode
         [Test]
         public void EnqueueingSamePopupInstanceTwiceThrows()
         {
-            using var provider = new PopupQueueService();
+            using var provider = new PopupQueueModel();
             var popup = new TestPopupModel(PopupType.Login, PopupPriority.Standard);
 
             provider.Enqueue(popup);

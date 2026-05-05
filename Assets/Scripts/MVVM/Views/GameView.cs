@@ -16,7 +16,7 @@ using Zenject;
 
 namespace PopupShowcase.MVVM.Presenters
 {
-    public class GamePresenter : BasePresenter
+    public class GameView : BasePresenter
     {
         private const string RemoteLoadFailureMessage = "Failed to load remote content. Please try again.";
 
@@ -25,7 +25,7 @@ namespace PopupShowcase.MVVM.Presenters
         [SerializeField] private Button _debugDailyRewardButton;
         [SerializeField] private MenuView _menuView;
 
-        private PopupQueueService _popupQueue;
+        private PopupQueueModel _popupQueue;
         private IPopupRequestService _popupRequestService;
         private PlayerStateModel _playerState;
         private IOffersModel _offersModel;
@@ -39,7 +39,7 @@ namespace PopupShowcase.MVVM.Presenters
 
         [Inject]
         public void SetDependency(
-            PopupQueueService popupQueue,
+            PopupQueueModel popupQueue,
             IPopupRequestService popupRequestService,
             PlayerStateModel playerState,
             IOffersModel offersModel,

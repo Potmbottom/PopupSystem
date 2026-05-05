@@ -5,42 +5,42 @@ using PopupShowcase.MVVM.Popups.Models;
 using R3;
 using UnityEngine;
 
-namespace PopupShowcase.MVVM.Popups.Service
+namespace PopupShowcase.MVVM.Popups.Models
 {
-    public class PopupQueueService : IDisposable
+    public class PopupQueueModel : IDisposable
     {
-        public ReadOnlyReactiveProperty<QueueModel> CurrentItem => _aggregate.CurrentItem;
+        public ReadOnlyReactiveProperty<QueueItemModel> CurrentItem => _aggregate.CurrentItem;
 
-        private readonly Dictionary<PopupPriority, Queue<QueueModel>> _queues;
-        private readonly Dictionary<BasePopupModel, QueueModel> _queueItems = new();
+        private readonly Dictionary<PopupPriority, QueueModel<QueueItemModel>> _queues;
+        private readonly Dictionary<BasePopupModel, QueueItemModel> _queueItems = new();
         private readonly Dictionary<BasePopupModel, IDisposable> _closeSubscriptions = new();
-        private readonly QueueAggregator<QueueModel> _aggregate;
+        private readonly QueueAggregatorModel<QueueItemModel> _aggregate;
 
-        public PopupQueueService()
+        public PopupQueueModel()
         {
-            _queues = new Dictionary<PopupPriority, Queue<QueueModel>>();
+            _queues = new Dictionary<PopupPriority, QueueModel<QueueItemModel>>();
             foreach (PopupPriority priority in Enum.GetValues(typeof(PopupPriority)))
-                _queues[priority] = new Queue<QueueModel>(priority.ToString());
+                _queues[priority] = new QueueModel<QueueItemModel>(priority.ToString());
 
             var orderedProviders = _queues
                 .OrderBy(kv => (int)kv.Key)
-                .Select(kv => (ICurrentItemProvider<QueueModel>)kv.Value)
+                .Select(kv => (ICurrentItemProvider<QueueItemModel>)kv.Value)
                 .ToList();
 
-            _aggregate = new QueueAggregator<QueueModel>(orderedProviders);
+            _aggregate = new QueueAggregatorModel<QueueItemModel>(orderedProviders);
         }
 
         public void Enqueue(BasePopupModel model)
         {
-            Enqueue(new QueueModel(model));
+            Enqueue(new QueueItemModel(model));
         }
 
         public void Enqueue(BasePopupModel model, GameObject loadedPrefab)
         {
-            Enqueue(new QueueModel(model, loadedPrefab));
+            Enqueue(new QueueItemModel(model, loadedPrefab));
         }
 
-        private void Enqueue(QueueModel item)
+        private void Enqueue(QueueItemModel item)
         {
             var model = item.Model;
             if (_queueItems.ContainsKey(model))
