@@ -1,0 +1,16 @@
+{
+    "name": "PopupShowcase.Scriptables",
+    "rootNamespace": "",
+    "references": [
+        "PopupShowcase.MVVM.PopupModels"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

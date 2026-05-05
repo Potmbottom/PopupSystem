@@ -1,0 +1,25 @@
+{
+    "name": "PopupShowcase.MVVM",
+    "rootNamespace": "",
+    "references": [
+        "PopupShowcase.AssetContracts",
+        "PopupShowcase.Assets",
+        "PopupShowcase.Scriptables",
+        "PopupShowcase.MVVM.Common",
+        "PopupShowcase.MVVM.PopupModels",
+        "R3.Unity",
+        "UniTask",
+        "Unity.TextMeshPro",
+        "Zenject",
+        "UniTask.Linq"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,4 +1,4 @@
-Code in PopupSystem\Assets\_Project\Scripts
+Code in PopupSystem\Assets\Scripts
 
 Dont bother about reference on scene, delete or remove scripts and dont even look is it procude missing component on scene or break reference
 ***
